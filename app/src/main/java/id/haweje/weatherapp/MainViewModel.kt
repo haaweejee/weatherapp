@@ -1,14 +1,15 @@
 package id.haweje.weatherapp
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import id.haweje.weatherapp.core.source.remote.network.WeatherApiClient
 import id.haweje.weatherapp.core.source.remote.response.WeatherResponse
+import id.haweje.weatherapp.utils.Constanta
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 
 class MainViewModel : ViewModel() {
 
@@ -29,13 +30,14 @@ class MainViewModel : ViewModel() {
             ) {
                 if (response.isSuccessful){
                     _weather.value = response.body()
-                }else{
-                    Log.e("Fail", "onFailure: ${response.message()}")
+                    Timber.tag(Constanta.SUCCESS).d("Success load from API:%s", response.message())
+                }else {
+                    Timber.tag(Constanta.FAIL).e("onFailure :%s", response.message())
                 }
             }
 
             override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
-                Log.e("Fail", "onFailure: ${t.message.toString()}")
+                Timber.tag(Constanta.FAIL).e("onFailure :%s", t.message)
             }
         })
     }
