@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Weatherapp</string>
+    <string name="dummy_city">Tangerang, ID</string>
+    <string name="dummy_date">Updated at: 18/11/2020 02:44 PM</string>
+    <string name="dummy_weather">Clouds</string>
+    <string name="dummy_temp">40℃</string>
+    <string name="dummy_min_temp">Min Temp: 27℃</string>
+    <string name="dummy_max_temp">Max Temp: 40℃</string>
+    <string name="dummy_humidity">70</string>
+    <string name="dummy_pressure">1009</string>
+    <string name="dummy_wind">5.14</string>
+    <string name="min_temp">Min Suhu: %s</string>
+    <string name="max_temp">Max Suhu: %s</string>
+    <string name="temp">%s℃</string>
+    <string name="humidity_text">Lembap</string>
+    <string name="pressure_text">Tekanan</string>
+    <string name="wind_text">Angin</string>
+    <string name="created_by">Dibuat oleh Haaweejee</string>
+    <string name="updated_at">Diperbarui</string>
+</resources>

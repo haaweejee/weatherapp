@@ -1,7 +1,6 @@
 package id.haweje.weatherapp
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import id.haweje.weatherapp.databinding.ActivityMainBinding
@@ -48,11 +47,14 @@ class MainActivity : AppCompatActivity() {
             getUpdateTime()
         })
     }
+
+
     private fun getUpdateTime(){
         val calendar = Calendar.getInstance()
         val simpleDateFormat = SimpleDateFormat("EEEE LLLL yyyy HH:mm:ss aaa z")
         val dateTime = simpleDateFormat.format(calendar.time).toString()
         binding.updateTimeId.text = dateTime
     }
+
 
 }

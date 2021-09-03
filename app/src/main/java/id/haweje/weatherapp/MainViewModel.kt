@@ -1,5 +1,6 @@
 package id.haweje.weatherapp
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,9 +29,9 @@ class MainViewModel : ViewModel() {
                 call: Call<WeatherResponse>,
                 response: Response<WeatherResponse>
             ) {
-                if (response.isSuccessful){
+                if (response.isSuccessful) {
                     _weather.value = response.body()
-                    Timber.tag(Constanta.SUCCESS).d("Success load from API:%s", response.message())
+                    Timber.tag(Constanta.SUCCESS).d("Success load from API:%s", response.body())
                 }else {
                     Timber.tag(Constanta.FAIL).e("onFailure :%s", response.message())
                 }
