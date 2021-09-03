@@ -3,6 +3,7 @@ package id.haweje.weatherapp
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import id.haweje.weatherapp.core.utils.ViewModelFactory
 import id.haweje.weatherapp.databinding.ActivityMainBinding
 import java.text.SimpleDateFormat
 import java.util.*
@@ -12,6 +13,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
     private lateinit var viewModel : MainViewModel
+
     private var timer = Timer()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,8 +34,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showData(){
-        viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[MainViewModel::class.java]
-        viewModel.weather.observe(this, { weather ->
+        val factory = ViewModelFactory.getInstance()
+        viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
+        viewModel.getWeatherData().observe(this, { weather ->
             val weatherTemp = weather.main.temp
             val celcius = (weatherTemp / 10).toInt()
             binding.temperatureId.text = String.format(getString(R.string.temp), celcius.toString())
@@ -55,6 +58,5 @@ class MainActivity : AppCompatActivity() {
         val dateTime = simpleDateFormat.format(calendar.time).toString()
         binding.updateTimeId.text = dateTime
     }
-
 
 }

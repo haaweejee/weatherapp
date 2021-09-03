@@ -1,5 +1,6 @@
 package id.haweje.weatherapp.core.source.remote.response
 
+import androidx.annotation.NonNull
 import com.squareup.moshi.Json
 
 data class WeatherResponse(
@@ -15,6 +16,7 @@ data class WeatherResponse(
 
 	@Json(name="main")
 	val main: Main,
+
 
 	@Json(name="wind")
 	val wind: Wind

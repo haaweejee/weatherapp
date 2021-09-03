@@ -1,4 +1,4 @@
-package id.haweje.weatherapp.utils
+package id.haweje.weatherapp.core.utils
 
 class Constanta {
     companion object{
