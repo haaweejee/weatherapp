@@ -23,8 +23,8 @@ class RemoteDataSource {
             }
     }
 
-    fun getWeatherData() : LiveData<WeatherResponse>{
-        val weatherResult = MutableLiveData<WeatherResponse>()
+    fun getWeatherData() : LiveData<ApiResponse<WeatherResponse?>>{
+        val weatherResult = MutableLiveData<ApiResponse<WeatherResponse?>>()
         val weatherData = WeatherApiClient.getApiService().getWeatherData()
         weatherData.enqueue(object : Callback<WeatherResponse> {
             override fun onResponse(
@@ -32,7 +32,7 @@ class RemoteDataSource {
                 response: Response<WeatherResponse>
             ) {
                 if (response.isSuccessful) {
-                    weatherResult.value = response.body()
+                    weatherResult.value = ApiResponse.success(response.body())
                     Timber.tag(Constanta.SUCCESS).d("Success load from API:%s", response.body())
                 }else {
                     Timber.tag(Constanta.FAIL).e("onFailure :%s", response.message())
@@ -44,11 +44,6 @@ class RemoteDataSource {
             }
         })
         return weatherResult
-    }
-
-
-    interface LoadWeatherDataCallback{
-        fun onLoadWeather(data: WeatherResponse?)
     }
 }
 

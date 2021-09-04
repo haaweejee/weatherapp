@@ -1,8 +1,11 @@
 package id.haweje.weatherapp
 
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import id.haweje.weatherapp.core.utils.Status
 import id.haweje.weatherapp.core.utils.ViewModelFactory
 import id.haweje.weatherapp.databinding.ActivityMainBinding
 import java.text.SimpleDateFormat
@@ -34,20 +37,34 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showData(){
-        val factory = ViewModelFactory.getInstance()
+        val factory = ViewModelFactory.getInstance(this)
         viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
-        viewModel.getWeatherData().observe(this, { weather ->
-            val weatherTemp = weather.main.temp
-            val celcius = (weatherTemp / 10).toInt()
-            binding.temperatureId.text = String.format(getString(R.string.temp), celcius.toString())
-            binding.maxTemperatureId.text = String.format(getString(R.string.max_temp), weather.main.tempMax.toString())
-            binding.minTemperatureId.text = String.format(getString(R.string.min_temp), weather.main.tempMin.toString())
-            binding.cityNameId.text = weather.name
-            binding.humidityId.text = weather.main.humidity.toString()
-            binding.pressureId.text = weather.main.pressure.toString()
-            binding.windId.text = weather.wind.speed.toString()
-            binding.weatherConditionId.text = weather.weather[0].main
-            getUpdateTime()
+        viewModel.getWeatherData().observe(this, {
+            if (it != null){
+                when(it.status){
+                    Status.LOADING -> {
+                        binding.mainLayout.visibility = View.GONE
+                    }
+                    Status.SUCCESS -> {
+                        binding.mainLayout.visibility = View.VISIBLE
+                        val weatherTemp = it.data?.temp
+                        val celcius = (weatherTemp?.div(10))?.toInt()
+                        binding.temperatureId.text = String.format(getString(R.string.temp), celcius.toString())
+                        binding.maxTemperatureId.text = String.format(getString(R.string.max_temp), it.data?.tempMax?.toString())
+                        binding.minTemperatureId.text = String.format(getString(R.string.min_temp), it.data?.tempMin?.toString())
+                        binding.cityNameId.text = it.data?.name
+                        binding.humidityId.text = it.data?.humidity.toString()
+                        binding.pressureId.text = it.data?.pressure.toString()
+                        binding.windId.text = it.data?.speed.toString()
+                        binding.weatherConditionId.text = it.data?.weatherInfo
+                        getUpdateTime()
+                    }
+                    Status.ERROR -> {
+                        binding.mainLayout.visibility = View.GONE
+                        Toast.makeText(this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         })
     }
 

@@ -1,6 +1,5 @@
 package id.haweje.weatherapp.core.source.remote.response
 
-import androidx.annotation.NonNull
 import com.squareup.moshi.Json
 
 data class WeatherResponse(

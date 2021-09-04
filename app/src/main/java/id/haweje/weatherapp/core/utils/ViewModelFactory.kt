@@ -1,5 +1,6 @@
 package id.haweje.weatherapp.core.utils
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import id.haweje.weatherapp.MainViewModel
@@ -13,9 +14,9 @@ class ViewModelFactory private constructor(private val weatherRepository: Weathe
         @Volatile
         private var instance : ViewModelFactory? = null
 
-        fun getInstance(): ViewModelFactory =
+        fun getInstance(context: Context): ViewModelFactory =
             instance?: synchronized(this){
-                instance ?: ViewModelFactory(Injection.provideRepository()).apply {
+                instance ?: ViewModelFactory(Injection.provideRepository(context)).apply {
                     instance = this
                 }
             }
