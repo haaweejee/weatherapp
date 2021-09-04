@@ -1,12 +1,8 @@
 package id.haweje.weatherapp.core.source.local.entity
 
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import id.haweje.weatherapp.core.source.remote.response.Main
-import id.haweje.weatherapp.core.source.remote.response.WeatherItem
-import id.haweje.weatherapp.core.source.remote.response.Wind
 
 @Entity(tableName = "weather")
 data class WeatherEntity(

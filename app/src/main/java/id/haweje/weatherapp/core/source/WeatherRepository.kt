@@ -7,6 +7,7 @@ import id.haweje.weatherapp.core.source.remote.ApiResponse
 import id.haweje.weatherapp.core.source.remote.RemoteDataSource
 import id.haweje.weatherapp.core.source.remote.response.WeatherResponse
 import id.haweje.weatherapp.core.utils.AppExecutors
+import id.haweje.weatherapp.core.utils.DataMapper
 import id.haweje.weatherapp.core.utils.Resource
 
 class WeatherRepository private constructor(
@@ -36,21 +37,8 @@ class WeatherRepository private constructor(
 
 
             override fun saveCallResult(data: WeatherResponse?) {
-                with(data){
-                    val weather = WeatherEntity(
-                        id = 0,
-                        name = this?.name,
-                        country = this?.country,
-                        temp = this?.main?.temp,
-                        tempMin = this?.main?.tempMin,
-                        tempMax = this?.main?.tempMax,
-                        humidity = this?.main?.humidity,
-                        pressure = this?.main?.pressure,
-                        speed = this?.wind?.speed,
-                        weatherInfo = this?.weather!![0].main
-                    )
-                    localDataSource.insertWeatherData(weather)
-                }
+                val weather = DataMapper.mapResponsetoEntity(data)
+                localDataSource.insertWeatherData(weather)
 
             }
         }.asLiveData()
@@ -64,5 +52,6 @@ class WeatherRepository private constructor(
         }
         appExecutors.diskIO().execute(runnable)
     }
+
 
 }
