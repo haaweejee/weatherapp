@@ -1,18 +1,18 @@
 package id.haweje.weatherapp.core.source.local.room
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import id.haweje.weatherapp.core.source.local.entity.WeatherEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface WeatherDao {
 
     @Query("SELECT * FROM weather")
-    fun getWeatherData() : LiveData<WeatherEntity>
+    fun getWeatherData() : Flow<WeatherEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertWeatherData(weather: WeatherEntity)
+    suspend fun insertWeatherData(weather: WeatherEntity)
 }

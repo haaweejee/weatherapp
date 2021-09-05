@@ -48,11 +48,10 @@ dependencies {
     //Swipe Layout
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
-    //Shimmer
-    implementation "com.facebook.shimmer:shimmer:0.5.0"
-
-    //Spinkit
-    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+    //LifeCycle
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
 
 
     //Kotlin Corountines
@@ -69,6 +68,7 @@ dependencies {
 
     //Room
     implementation "androidx.room:room-runtime:2.3.0"
+    implementation "androidx.room:room-ktx:2.3.0"
     kapt "androidx.room:room-compiler:2.3.0"
     androidTestImplementation "androidx.room:room-testing:2.3.0"
 

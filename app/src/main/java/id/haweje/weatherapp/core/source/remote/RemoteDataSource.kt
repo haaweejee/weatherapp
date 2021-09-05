@@ -1,49 +1,39 @@
 package id.haweje.weatherapp.core.source.remote
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import id.haweje.weatherapp.core.source.remote.network.WeatherApiClient
+import id.haweje.weatherapp.core.source.remote.network.ApiResponse
+import id.haweje.weatherapp.core.source.remote.network.WeatherApi
 import id.haweje.weatherapp.core.source.remote.response.WeatherResponse
-import id.haweje.weatherapp.core.utils.Constanta
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
 
-class RemoteDataSource {
+class RemoteDataSource private constructor(private val api: WeatherApi){
 
-    companion object{
+    companion object {
 
         @Volatile
-        private var instance : RemoteDataSource? = null
+        private var instance: RemoteDataSource? = null
 
-        fun getInstance(): RemoteDataSource =
-            instance ?: synchronized(this){
-                instance ?: RemoteDataSource()
+        fun getInstance(api: WeatherApi): RemoteDataSource =
+            instance ?: synchronized(this) {
+                instance ?: RemoteDataSource(api)
             }
     }
 
-    fun getWeatherData() : LiveData<ApiResponse<WeatherResponse?>>{
-        val weatherResult = MutableLiveData<ApiResponse<WeatherResponse?>>()
-        val weatherData = WeatherApiClient.getApiService().getWeatherData()
-        weatherData.enqueue(object : Callback<WeatherResponse> {
-            override fun onResponse(
-                call: Call<WeatherResponse>,
-                response: Response<WeatherResponse>
-            ) {
-                if (response.isSuccessful) {
-                    weatherResult.value = ApiResponse.success(response.body())
-                    Timber.tag(Constanta.SUCCESS).d("Success load from API:%s", response.body())
-                }else {
-                    Timber.tag(Constanta.FAIL).e("onFailure :%s", response.message())
-                }
-            }
 
-            override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
-                Timber.tag(Constanta.FAIL).e("onFailure :%s", t.message)
+    suspend fun getWeatherData(): Flow<ApiResponse<WeatherResponse?>> {
+        return flow {
+            try {
+                val response = api.getWeatherData()
+                emit(ApiResponse.Success(response))
+                Timber.d("Success Load")
+            }catch (e: Exception){
+                emit(ApiResponse.Error(e.toString()))
+                Timber.e("Error", e.toString())
             }
-        })
-        return weatherResult
+        }.flowOn(Dispatchers.IO)
     }
 }
 
