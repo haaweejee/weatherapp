@@ -7,25 +7,25 @@ import kotlinx.coroutines.flow.*
 abstract class NetworkBoundResource<ResultType, RequestType> {
 
     private var result: Flow<Resource<ResultType>> = flow {
-        emit(Resource.Loading())
+        emit(Resource.loading(null))
         val dbSource = loadFromDB().first()
         if (shouldFetch(dbSource)) {
-            emit(Resource.Loading())
+            emit(Resource.loading(dbSource))
             when (val apiResponse = createCall().first()) {
                 is ApiResponse.Success -> {
                     saveCallResult(apiResponse.data)
-                    emitAll(loadFromDB().map { Resource.Success(it) })
+                    emitAll(loadFromDB().map { Resource.success(it) })
                 }
                 is ApiResponse.Empty -> {
-                    emitAll(loadFromDB().map { Resource.Success(it) })
+                    emitAll(loadFromDB().map { Resource.success(it) })
                 }
                 is ApiResponse.Error -> {
                     onFetchFailed()
-                    emit(Resource.Error<ResultType>(apiResponse.errorMessage))
+                    emit(Resource.error<ResultType>(null, apiResponse.errorMessage))
                 }
             }
         } else {
-            emitAll(loadFromDB().map { Resource.Success(it) })
+            emitAll(loadFromDB().map { Resource.success(it) })
         }
     }
 

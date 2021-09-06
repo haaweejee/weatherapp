@@ -5,17 +5,15 @@ import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import id.haweje.weatherapp.core.source.local.entity.WeatherEntity
 import id.haweje.weatherapp.core.utils.Resource
+import id.haweje.weatherapp.core.utils.StatusResponse
 import id.haweje.weatherapp.core.utils.ViewModelFactory
 import id.haweje.weatherapp.databinding.ActivityMainBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.concurrent.schedule
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,6 +28,9 @@ class MainActivity : AppCompatActivity() {
         refreshLayout()
         showData()
 
+        Timber.d("Aplikasi Berjalan")
+
+
     }
 
     private fun refreshLayout() {
@@ -38,7 +39,7 @@ class MainActivity : AppCompatActivity() {
             Handler(Looper.getMainLooper()).postDelayed({
                 binding.swipeRefreshLayout.isRefreshing = false
                 showData()
-            },3000)
+            },1000)
         }
     }
 
@@ -47,23 +48,20 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
         viewModel.getWeatherData().observe(this@MainActivity, { weather ->
             if (weather != null){
-                when(weather){
-                    is Resource.Loading ->
-                        Snackbar.make(binding.mainLayout, "Tunggu Sebentar", Snackbar.LENGTH_SHORT).show()
-                    is Resource.Success -> {
-                        getUpdateTime()
+                when(weather.status){
+                    StatusResponse.SUCCESS -> {
                         getData(weather)
                         Snackbar.make(binding.mainLayout, "Berhasil", Snackbar.LENGTH_SHORT).show()
                     }
-                    is Resource.Error ->
-                        Snackbar.make(binding.mainLayout, "Gagal Update", Snackbar.LENGTH_SHORT).show()
+                    StatusResponse.ERROR -> Snackbar.make(binding.mainLayout, "Gagal", Snackbar.LENGTH_SHORT).show()
+                    StatusResponse.LOADING -> Snackbar.make(binding.mainLayout, "Please wait", Snackbar.LENGTH_SHORT).show()
                 }
             }
         })
 
     }
 
-    private fun getData(result: Resource.Success<WeatherEntity>){
+    private fun getData(result: Resource<WeatherEntity>){
         val weatherTemp = result.data?.temp
         val celcius = (weatherTemp?.div(10))?.toInt()
         binding.apply {
@@ -76,6 +74,7 @@ class MainActivity : AppCompatActivity() {
             windId.text = result.data?.speed.toString()
             weatherConditionId.text = result.data?.weatherInfo
         }
+        getUpdateTime()
     }
 
 

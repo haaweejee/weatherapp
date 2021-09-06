@@ -17,10 +17,10 @@ data class RemoteDataSource constructor(private val api: WeatherApi){
             try {
                 val response = api.getWeatherData()
                 emit(ApiResponse.Success(response))
-                Timber.d("Success Load", response.toString())
+                Timber.d("onSuccess $response")
             }catch (e: Exception){
                 emit(ApiResponse.Error(e.toString()))
-                Timber.e("Error", e.toString())
+                Timber.e("onError$e")
             }
         }.flowOn(Dispatchers.IO)
     }
