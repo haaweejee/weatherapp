@@ -3,23 +3,20 @@ package id.haweje.weatherapp
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
+import id.haweje.weatherapp.core.source.local.entity.WeatherEntity
 import id.haweje.weatherapp.core.utils.Resource
 import id.haweje.weatherapp.core.utils.ViewModelFactory
 import id.haweje.weatherapp.databinding.ActivityMainBinding
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.concurrent.schedule
 
-@DelicateCoroutinesApi
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
@@ -38,44 +35,47 @@ class MainActivity : AppCompatActivity() {
     private fun refreshLayout() {
         showData()
         binding.swipeRefreshLayout.setOnRefreshListener{
-            if(binding.swipeRefreshLayout.isRefreshing){
-                Handler(Looper.getMainLooper()).postDelayed({
-                    binding.swipeRefreshLayout.isRefreshing = false
-                    showData()
-                },500)
-            }
+            Handler(Looper.getMainLooper()).postDelayed({
+                binding.swipeRefreshLayout.isRefreshing = false
+                showData()
+            },3000)
         }
     }
 
     private fun showData(){
         val factory = ViewModelFactory.getInstance(this)
         viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
-            viewModel.weather.observe(this@MainActivity, { weather ->
-                if (weather != null){
-                    when(weather){
-                        is Resource.Loading ->
-                            Snackbar.make(binding.mainLayout, "Tunggu Sebentar", Snackbar.LENGTH_SHORT).show()
-                        is Resource.Success -> {
-                            getUpdateTime()
-                            val weatherTemp = weather.data?.temp
-                            val celcius = (weatherTemp?.div(10))?.toInt()
-                            binding.apply {
-                                temperatureId.text = String.format(getString(R.string.temp), celcius.toString())
-                                maxTemperatureId.text = String.format(getString(R.string.max_temp), weather.data?.tempMax?.toString())
-                                minTemperatureId.text = String.format(getString(R.string.min_temp), weather.data?.tempMin?.toString())
-                                cityNameId.text = weather.data?.name
-                                humidityId.text = weather.data?.humidity.toString()
-                                pressureId.text = weather.data?.pressure.toString()
-                                windId.text = weather.data?.speed.toString()
-                                weatherConditionId.text = weather.data?.weatherInfo
-                            }
-                            Toast.makeText(this@MainActivity, "Success", Toast.LENGTH_SHORT).show()
-                        }
-                        is Resource.Error -> Toast.makeText(this@MainActivity, "Gagal", Toast.LENGTH_SHORT).show()
+        viewModel.getWeatherData().observe(this@MainActivity, { weather ->
+            if (weather != null){
+                when(weather){
+                    is Resource.Loading ->
+                        Snackbar.make(binding.mainLayout, "Tunggu Sebentar", Snackbar.LENGTH_SHORT).show()
+                    is Resource.Success -> {
+                        getUpdateTime()
+                        getData(weather)
+                        Snackbar.make(binding.mainLayout, "Berhasil", Snackbar.LENGTH_SHORT).show()
                     }
+                    is Resource.Error ->
+                        Snackbar.make(binding.mainLayout, "Gagal Update", Snackbar.LENGTH_SHORT).show()
                 }
-            })
+            }
+        })
 
+    }
+
+    private fun getData(result: Resource.Success<WeatherEntity>){
+        val weatherTemp = result.data?.temp
+        val celcius = (weatherTemp?.div(10))?.toInt()
+        binding.apply {
+            temperatureId.text = String.format(getString(R.string.temp), celcius.toString())
+            maxTemperatureId.text = String.format(getString(R.string.max_temp), result.data?.tempMax?.toString())
+            minTemperatureId.text = String.format(getString(R.string.min_temp), result.data?.tempMin?.toString())
+            cityNameId.text = result.data?.name
+            humidityId.text = result.data?.humidity.toString()
+            pressureId.text = result.data?.pressure.toString()
+            windId.text = result.data?.speed.toString()
+            weatherConditionId.text = result.data?.weatherInfo
+        }
     }
 
 

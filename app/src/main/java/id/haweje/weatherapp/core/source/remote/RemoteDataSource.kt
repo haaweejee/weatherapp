@@ -9,7 +9,21 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
 
-class RemoteDataSource private constructor(private val api: WeatherApi){
+data class RemoteDataSource constructor(private val api: WeatherApi){
+
+    suspend fun getWeatherData(): Flow<ApiResponse<WeatherResponse>> {
+        //get data From remote api
+        return flow {
+            try {
+                val response = api.getWeatherData()
+                emit(ApiResponse.Success(response))
+                Timber.d("Success Load", response.toString())
+            }catch (e: Exception){
+                emit(ApiResponse.Error(e.toString()))
+                Timber.e("Error", e.toString())
+            }
+        }.flowOn(Dispatchers.IO)
+    }
 
     companion object {
 
@@ -20,20 +34,6 @@ class RemoteDataSource private constructor(private val api: WeatherApi){
             instance ?: synchronized(this) {
                 instance ?: RemoteDataSource(api)
             }
-    }
-
-
-    suspend fun getWeatherData(): Flow<ApiResponse<WeatherResponse?>> {
-        return flow {
-            try {
-                val response = api.getWeatherData()
-                emit(ApiResponse.Success(response))
-                Timber.d("Success Load")
-            }catch (e: Exception){
-                emit(ApiResponse.Error(e.toString()))
-                Timber.e("Error", e.toString())
-            }
-        }.flowOn(Dispatchers.IO)
     }
 }
 

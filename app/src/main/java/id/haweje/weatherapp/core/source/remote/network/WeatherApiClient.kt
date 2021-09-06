@@ -11,6 +11,7 @@ object WeatherApiClient {
            val retrofit = Retrofit.Builder()
                .baseUrl("https://api.openweathermap.org/data/2.5/")
                .addConverterFactory(MoshiConverterFactory.create())
+               .client(getLoggingIntreceptor())
                .build()
            return retrofit.create(WeatherApi::class.java)
        }
