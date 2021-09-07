@@ -18,4 +18,7 @@
     <string name="wind_text">Angin</string>
     <string name="created_by">Dibuat oleh Haaweejee</string>
     <string name="updated_at">Diperbarui</string>
+    <string name="failed_alert">Gagal, Silahkan Swipe Up</string>
+    <string name="success">Berhasil</string>
+    <string name="loading_alert">Silahkan Tunggu</string>
 </resources>
