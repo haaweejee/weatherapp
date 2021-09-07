@@ -17,8 +17,8 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityMainBinding
-    private lateinit var viewModel : MainViewModel
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,33 +35,45 @@ class MainActivity : AppCompatActivity() {
 
     private fun refreshLayout() {
         showData()
-        binding.swipeRefreshLayout.setOnRefreshListener{
+        binding.swipeRefreshLayout.setOnRefreshListener {
             Handler(Looper.getMainLooper()).postDelayed({
                 binding.swipeRefreshLayout.isRefreshing = false
                 showData()
-            },1000)
+            }, 1000)
         }
     }
 
-    private fun showData(){
+    private fun showData() {
         val factory = ViewModelFactory.getInstance(this)
         viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
         viewModel.getWeatherData().observe(this@MainActivity, { weather ->
-            if (weather != null){
-                when(weather.status){
+            if (weather != null) {
+                when (weather.status) {
                     StatusResponse.SUCCESS -> {
                         getData(weather)
-                        Snackbar.make(binding.mainLayout, getString(R.string.success), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(
+                            binding.mainLayout,
+                            getString(R.string.success),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
                     }
-                    StatusResponse.ERROR -> Snackbar.make(binding.mainLayout, getString(R.string.failed_alert), Snackbar.LENGTH_SHORT).show()
-                    StatusResponse.LOADING -> Snackbar.make(binding.mainLayout, getString(R.string.loading_alert), Snackbar.LENGTH_SHORT).show()
+                    StatusResponse.ERROR -> Snackbar.make(
+                        binding.mainLayout,
+                        getString(R.string.failed_alert),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                    StatusResponse.LOADING -> Snackbar.make(
+                        binding.mainLayout,
+                        getString(R.string.loading_alert),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                 }
             }
         })
 
     }
 
-    private fun getData(result: Resource<WeatherEntity>){
+    private fun getData(result: Resource<WeatherEntity>) {
         val weatherTemp = result.data?.temp
         val celcius = (weatherTemp?.div(10))?.toInt()
         binding.apply {
@@ -76,7 +88,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun getUpdateTime(){
+    private fun getUpdateTime() {
         val calendar = Calendar.getInstance()
         val simpleDateFormat = SimpleDateFormat("EEEE LLLL yyyy HH:mm:ss aaa z")
         val dateTime = simpleDateFormat.format(calendar.time).toString()

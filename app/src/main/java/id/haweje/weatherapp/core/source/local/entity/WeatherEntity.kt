@@ -6,26 +6,26 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "weather")
 data class WeatherEntity(
-    @ColumnInfo(name ="id")
+    @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,
 
-    @ColumnInfo(name="name")
+    @ColumnInfo(name = "name")
     val name: String? = null,
 
-    @ColumnInfo(name="country")
+    @ColumnInfo(name = "country")
     val country: String? = null,
 
-    @ColumnInfo(name="temp")
+    @ColumnInfo(name = "temp")
     val temp: Double? = null,
 
-    @ColumnInfo(name="tempMin")
+    @ColumnInfo(name = "tempMin")
     val tempMin: Double? = null,
 
-    @ColumnInfo(name="tempMax")
+    @ColumnInfo(name = "tempMax")
     val tempMax: Double? = null,
 
-    @ColumnInfo(name="humidity")
+    @ColumnInfo(name = "humidity")
     val humidity: Int? = null,
 
     @ColumnInfo(name = "pressure")
@@ -35,5 +35,5 @@ data class WeatherEntity(
     val speed: Double? = null,
 
     @ColumnInfo(name = "main")
-    val weatherInfo : String? = null,
+    val weatherInfo: String? = null,
 )

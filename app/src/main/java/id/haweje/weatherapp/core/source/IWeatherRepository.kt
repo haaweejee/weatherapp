@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface IWeatherRepository {
 
-    fun getWeatherData() : Flow<Resource<WeatherEntity>>
+    fun getWeatherData(): Flow<Resource<WeatherEntity>>
 
 }

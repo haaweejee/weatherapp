@@ -19,7 +19,7 @@ object DataDummy {
         weatherInfo = ""
     )
 
-    fun getWeatherLiveData() : MutableLiveData<Resource<WeatherEntity>>{
+    fun getWeatherLiveData(): MutableLiveData<Resource<WeatherEntity>> {
         val weather = MutableLiveData<Resource<WeatherEntity>>()
         weather.value = Resource.success(getDummyWeather())
 

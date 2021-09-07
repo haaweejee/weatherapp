@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
 
-data class RemoteDataSource constructor(private val api: WeatherApi){
+data class RemoteDataSource constructor(private val api: WeatherApi) {
 
     suspend fun getWeatherData(): Flow<ApiResponse<WeatherResponse>> {
         //get data From remote api
@@ -18,7 +18,7 @@ data class RemoteDataSource constructor(private val api: WeatherApi){
                 val response = api.getWeatherData()
                 emit(ApiResponse.Success(response))
                 Timber.d("onSuccess $response")
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
                 Timber.e("onError$e")
             }

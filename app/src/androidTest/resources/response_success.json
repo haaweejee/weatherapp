@@ -1,43 +1,43 @@
 {
-    "coord": {
+  "coord": {
     "lon": 106.63,
     "lat": -6.1781
-    },
-    "weather": [
+  },
+  "weather": [
     {
-    "id": 803,
-    "main": "Clouds",
-    "description": "broken clouds",
-    "icon": "04d"
+      "id": 803,
+      "main": "Clouds",
+      "description": "broken clouds",
+      "icon": "04d"
     }
-    ],
-    "base": "stations",
-    "main": {
+  ],
+  "base": "stations",
+  "main": {
     "temp": 302.1,
     "feels_like": 307.54,
     "temp_min": 302.1,
     "temp_max": 303.19,
     "pressure": 1012,
     "humidity": 79
-    },
-    "visibility": 4000,
-    "wind": {
+  },
+  "visibility": 4000,
+  "wind": {
     "speed": 1.54,
     "deg": 0
-    },
-    "clouds": {
+  },
+  "clouds": {
     "all": 75
-    },
-    "dt": 1630898580,
-    "sys": {
+  },
+  "dt": 1630898580,
+  "sys": {
     "type": 1,
     "id": 9384,
     "country": "ID",
     "sunrise": 1630882295,
     "sunset": 1630925560
-    },
-    "timezone": 25200,
-    "id": 1625084,
-    "name": "Tangerang",
-    "cod": 200
-    }
+  },
+  "timezone": 25200,
+  "id": 1625084,
+  "name": "Tangerang",
+  "cod": 200
+}

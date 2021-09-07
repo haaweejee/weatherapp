@@ -5,7 +5,7 @@ import id.haweje.weatherapp.core.source.local.entity.WeatherEntity
 import id.haweje.weatherapp.core.source.remote.response.WeatherResponse
 
 object DataMapper {
-    fun mapResponsetoEntity(data : WeatherResponse?) = WeatherEntity(
+    fun mapResponsetoEntity(data: WeatherResponse?) = WeatherEntity(
         id = 0,
         name = data?.name,
         country = data?.country,
@@ -20,17 +20,17 @@ object DataMapper {
 
     fun mapEntitiestoDomain(data: WeatherEntity?) = data?.let {
         Weather(
-        id = it.id,
-        name = data.name,
-        country = data.country,
-        temp = data.temp,
-        tempMax = data.tempMin,
-        tempMin = data.tempMin,
-        humidity = data.humidity,
-        pressure = data.pressure,
-        speed = data.speed,
-        weatherInfo = data.weatherInfo
-    )
+            id = it.id,
+            name = data.name,
+            country = data.country,
+            temp = data.temp,
+            tempMax = data.tempMin,
+            tempMin = data.tempMin,
+            humidity = data.humidity,
+            pressure = data.pressure,
+            speed = data.speed,
+            weatherInfo = data.weatherInfo
+        )
     }
 
     fun mapDomainToEntities(data: Weather) = Weather(

@@ -6,5 +6,6 @@ import id.haweje.weatherapp.core.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
 class WeatherInteractor(private val weatherRepository: IWeatherRepository) : WeatherUseCase {
-    override fun getWeatherData(): Flow<Resource<WeatherEntity>> = weatherRepository.getWeatherData()
+    override fun getWeatherData(): Flow<Resource<WeatherEntity>> =
+        weatherRepository.getWeatherData()
 }
