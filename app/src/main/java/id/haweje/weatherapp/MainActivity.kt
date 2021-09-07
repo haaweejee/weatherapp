@@ -51,10 +51,10 @@ class MainActivity : AppCompatActivity() {
                 when(weather.status){
                     StatusResponse.SUCCESS -> {
                         getData(weather)
-                        Snackbar.make(binding.mainLayout, "Berhasil", Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(binding.mainLayout, getString(R.string.success), Snackbar.LENGTH_SHORT).show()
                     }
-                    StatusResponse.ERROR -> Snackbar.make(binding.mainLayout, "Gagal", Snackbar.LENGTH_SHORT).show()
-                    StatusResponse.LOADING -> Snackbar.make(binding.mainLayout, "Please wait", Snackbar.LENGTH_SHORT).show()
+                    StatusResponse.ERROR -> Snackbar.make(binding.mainLayout, getString(R.string.failed_alert), Snackbar.LENGTH_SHORT).show()
+                    StatusResponse.LOADING -> Snackbar.make(binding.mainLayout, getString(R.string.loading_alert), Snackbar.LENGTH_SHORT).show()
                 }
             }
         })
@@ -66,8 +66,6 @@ class MainActivity : AppCompatActivity() {
         val celcius = (weatherTemp?.div(10))?.toInt()
         binding.apply {
             temperatureId.text = String.format(getString(R.string.temp), celcius.toString())
-            maxTemperatureId.text = String.format(getString(R.string.max_temp), result.data?.tempMax?.toString())
-            minTemperatureId.text = String.format(getString(R.string.min_temp), result.data?.tempMin?.toString())
             cityNameId.text = result.data?.name
             humidityId.text = result.data?.humidity.toString()
             pressureId.text = result.data?.pressure.toString()

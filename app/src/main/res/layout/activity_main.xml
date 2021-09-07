@@ -59,46 +59,12 @@
             app:layout_constraintTop_toBottomOf="@+id/weatherCondition_id" />
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="72dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="72dp"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/cardView3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/temperature_id">
-
-            <TextView
-                android:id="@+id/min_temperature_id"
-                style="@style/text16Sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="@string/dummy_min_temp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/max_temperature_id"
-                style="@style/text16Sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/dummy_max_temp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="50dp"
             android:background="@color/white"
             app:cardCornerRadius="10dp"
             app:cardElevation="10dp"
@@ -139,7 +105,7 @@
             android:id="@+id/cardView3"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="50dp"
             android:background="@color/white"
             app:cardCornerRadius="10dp"
             app:cardElevation="10dp"
@@ -181,7 +147,7 @@
             android:id="@+id/cardView2"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="50dp"
             android:layout_marginEnd="32dp"
             android:background="@color/white"
             app:cardCornerRadius="10dp"
@@ -218,6 +184,7 @@
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
+
 
         <TextView
             android:id="@+id/textView"

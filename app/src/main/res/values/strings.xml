@@ -22,6 +22,9 @@
     <string name="wind_text">Wind</string>
     <string name="created_by">Created By Haaweejee</string>
     <string name="updated_at">Update At</string>
+    <string name="failed_alert">Gagal, Silahkan Swipe Up</string>
+    <string name="success">Berhasil</string>
+    <string name="loading_alert">Please wait</string>
 
 
 </resources>
